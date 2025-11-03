@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>你好，世界 · 来自 domaomao</title>
+  <style>
+    :root { color-scheme: light dark; --bg:#0f172a; --fg:#e2e8f0; --accent:#60a5fa; --card:#111827aa; }
+    @media (prefers-color-scheme: light) { :root { --bg:#f1f5f9; --fg:#0f172a; --accent:#2563eb; --card:#ffffffcc; } }
+    html,body { height:100%; margin:0; }
+    body {
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      background: radial-gradient(1200px 800px at 10% 10%, #1d4ed8 0%, transparent 50%),
+                  radial-gradient(1200px 800px at 90% 90%, #22c55e 0%, transparent 50%),
+                  var(--bg);
+      color: var(--fg);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    .card {
+      max-width: 720px;
+      width: 100%;
+      background: var(--card);
+      backdrop-filter: blur(10px);
+      border: 1px solid #ffffff22;
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 20px 50px #00000033;
+      animation: fadeIn .6s ease;
+    }
+    h1 { margin: 0 0 12px; font-size: 28px; line-height: 1.2; }
+    p { margin: 8px 0; font-size: 16px; }
+    .muted { opacity: .8 }
+    .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 14px; }
+    .chip { padding: 6px 10px; border-radius: 999px; background: #ffffff18; border: 1px solid #ffffff22; font-size: 13px; }
+    a.btn {
+      display: inline-block; margin-top: 16px; padding: 10px 14px; border-radius: 10px;
+      background: var(--accent); color: white; text-decoration: none; font-weight: 600;
+      box-shadow: 0 8px 20px #2563eb55;
+    }
+    footer { margin-top: 16px; font-size: 12px; opacity: .7 }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: translateY(0) } }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>你好，世界 👋</h1>
+    <p class="muted">这是一个用 GitHub Pages 发布的超简洁网页示例。</p>
+    <div class="row">
+      <span class="chip" id="now">UTC 时间加载中…</span>
+      <span class="chip" id="ua">正在识别你的浏览器…</span>
+      <span class="chip">作者：domaomao</span>
+    </div>
+    <a class="btn" href="#" id="share">复制本站链接</a>
+    <footer>提示：你可以随时修改本页内容并推送到仓库，刷新即可看到更新。</footer>
+  </main>
+
+  <script>
+    // 显示当前 UTC 时间
+    function fmt(n){return n.toString().padStart(2,'0')}
+    function tick(){
+      const d=new Date();
+      const utc = new Date(d.getTime() + d.getTimezoneOffset()*60000);
+      const s = `${utc.getUTCFullYear()}-${fmt(utc.getUTCMonth()+1)}-${fmt(utc.getUTCDate())} ${fmt(utc.getUTCHours())}:${fmt(utc.getUTCMinutes())}:${fmt(utc.getUTCSeconds())} UTC`;
+      document.getElementById('now').textContent = s;
+    }
+    tick(); setInterval(tick, 1000);
+
+    // 显示浏览器信息
+    document.getElementById('ua').textContent = navigator.userAgent;
+
+    // 复制当前站点链接
+    const shareBtn = document.getElementById('share');
+    shareBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      try {
+        await navigator.clipboard.writeText(location.href);
+        shareBtn.textContent = '已复制链接 ✅';
+        setTimeout(()=>shareBtn.textContent='复制本站链接', 1500);
+      } catch {
+        shareBtn.textContent = '复制失败，请手动复制地址栏';
+      }
+    });
+  </script>
+</body>
+</html>
